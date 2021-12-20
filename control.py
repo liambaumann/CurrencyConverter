@@ -9,7 +9,7 @@ import json
 
 class Controller:
     def __init__(self):
-        self.model = model.localModel()
+        self.model = model.model()
         self.view = view.View(self)
         self.refresh_view()
 
@@ -33,14 +33,14 @@ class Controller:
         :return:
         '''
         if(self.view.cb_live.isChecked()):
-            self.model = model.liveModel(self.model.get_model_state())
+            self.model.toLive()
         else:
-            self.model = model.localModel(self.model.get_model_state())
+            self.model.toLocal()
         #INFO Ausgabe aktualisieren
         self.refresh_view()
 
     def refresh_view(self):
-        self.view.setResult(self.model.result)
+        self.view.setResult(self.model.getResult())
 
     def convert(self) -> None:
         """
@@ -49,25 +49,24 @@ class Controller:
         """
         # spinbox wert von view holen
         from_amount = self.view.getAmountInput()
-        print(from_amount)
+        #print(from_amount)
         self.model.amount = from_amount
 
         from_curr = self.view.getFromCurr()
-        print(from_curr)
+        #print(from_curr)
         self.model.fromCurr = from_curr
 
         to_curr = self.view.getToCurr()
-        print(to_curr)
+        #print(to_curr)
         self.model.toCurr = to_curr
 
         #make conversion
-        result = self.model.makeConv(from_curr, to_curr, from_amount)
-        self.view.setResult(result)
+        str_result = self.model.makeConv(from_curr, to_curr, from_amount)
+        self.view.setResult(str_result)
         self.refresh_view()
 
 
 if __name__ == '__main__':
-    print("main?")
     app = QApplication([])
     c = Controller()
     c.view.show()

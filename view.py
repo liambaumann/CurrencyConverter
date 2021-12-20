@@ -39,7 +39,7 @@ class View(QMainWindow):
         print(self.dsb_amount.value())
 
     def reset(self) -> None:
-        pass
+        self.setResult("")
 
 
     """ Im Sinne von MVC ist es sinnvoll die QT Widgets nicht direkt auszulesen, damit auch andersstrukturierte Views funktionieren:  """
